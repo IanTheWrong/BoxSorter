@@ -1,6 +1,5 @@
-
 best = ""
-bestDifference = 100
+bestDifference = 1000
 
 def add(width, length, height):
     temp = [width, length, height]
@@ -24,21 +23,26 @@ def find(width, length, height):
                 difference = (getWidth(current) - width) + (getLength(current)) + (getHeight(current))
                 if(difference < bestDifference):
                     bestDifference = difference
-                    print(bestDifference)
                     best = str(getWidth(current)) + " " + str(getLength(current)) + " " + str(getHeight(current))
+                    s1 = str(getWidth(current))
+                    s2 = str(getLength(current))
+                    s3 = str(getHeight(current))
                     index = iteration
             iteration += 1
-    remove(index)
-    print(best)
+        if(bestDifference == 1000):
+            print("No Boxes For Specifications")
+        else:
+            remove(index)
+            print("Find the box with size: " + s1 + " x " + s2 + " x " + s3)
+            bestDifference = 1000
 
 def remove(index):
     filtered = []
     with open("boxes.txt", "r") as data:
-        readFile = data.readlines()
         increment = 0
-        for line in readFile:
+        for line in data:
             if(increment != index):
-                filtered.append(readFile[increment])
+                filtered.append(line)
             increment += 1
     with open("boxes.txt", "w") as data:
         data.writelines(filtered)
@@ -48,6 +52,7 @@ def remove(index):
 #gets the values for a single readline
 def getWidth(width):
     index = width.find(" ")
+    print(index)
     return int(width[:index])
 
 def getLength(length):
@@ -59,33 +64,40 @@ def getHeight(height):
     start = height.rfind(" ")
     return int(height[start:])
 
-add(3, 7, 2)
-add(8, 1, 9)
-add(5, 6, 4)
-add(2, 10, 3)
-add(9, 4, 6)
-add(1, 8, 7)
-add(6, 9, 5)
-add(7, 3, 10)
-add(4, 2, 8)
-add(10, 5, 1)
-add(6, 8, 9)
-add(3, 4, 7)
-add(1, 9, 6)
-add(2, 5, 10)
-add(8, 7, 3)
-add(9, 2, 5)
-add(4, 6, 8)
-add(7, 10, 1)
-add(5, 3, 9)
-add(10, 6, 2)
-add(3, 8, 4)
-add(1, 7, 9)
-add(9, 5, 3)
-add(2, 6, 10)
-add(6, 4, 8)
-add(7, 2, 1)
-add(8, 10, 5)
-add(4, 9, 7)
-add(5, 1, 6)
-find(2,3,4)
+while(True):
+    print("Box Find & Sort")
+    print("What would you like to do? (add, find, exit)")
+    action = input(">>> ")
+    if(action == "add"):
+        print("Adding New Box...")
+        s1 = input("First Side: ")
+        s2 = input("Second Side: ")
+        s3 = input("Third Side: ")
+        print("adding box with sides: " + s1 + ", " + s2 + ", and " + s3)
+        confirm = input("confirm? y/n >>> ")
+        if(confirm.lower() == "y" or confirm.lower() == "yes"):
+            add(s1,s2,s3)
+            print("added\n\n")
+        else:
+            continue
+    elif(action == "find"):
+        print("Item Dimensions:")
+        s1 = input("First Side: ")
+        s2 = input("Second Side: ")
+        s3 = input("Third Side: ")
+        print("finding box with sides: " + s1 + ", " + s2 + ", and " + s3)
+        confirm = input("confirm? y/n >>> ")
+        if(confirm.lower() == "y" or confirm.lower() == "yes"):
+                temp = [s1, s2, s3]
+                temp = sorted(temp)
+                s1 = temp[0]
+                s2 = temp[1]
+                s3 = temp[2]
+                find(int(s1),int(s2),int(s3))
+        else:
+            continue
+    elif(action == "exit"):
+        exit()
+    else:
+        print("Invalid Command")
+        continue
