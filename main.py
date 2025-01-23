@@ -2,6 +2,12 @@ import os
 best = ""
 bestDifference = 1000
 
+#TODO: Write alternate program for unit testing, random population of database + Self test results onto another txt file
+#TODO: Make Text UI 1,2,3 selection menus
+#TODO: Allow find() to be able to find "Nearest" X amount of boxes
+#TODO: List all boxes function
+#TODO: List total boxes function
+
 def add(width, length, height):
     temp = [width, length, height]
     temp = sorted(temp)
