@@ -1,3 +1,4 @@
+import os
 best = ""
 bestDifference = 1000
 
@@ -32,9 +33,17 @@ def find(width, length, height):
         if(bestDifference == 1000):
             print("No Boxes For Specifications")
         else:
-            remove(index)
             print("Find the box with size: " + s1 + " x " + s2 + " x " + s3)
             bestDifference = 1000
+            confirm = input("Remove? y/n >>>")
+            if(confirm.lower() == "y" or confirm.lower() == "yes"):
+                remove(index)
+                os.system('cls')
+                print("------------------------Find the box with size: " + s1 + " x " + s2 + " x " + s3 + "------------------------")
+            else:
+                os.system('cls')
+                print("------------------------Find the box with size: " + s1 + " x " + s2 + " x " + s3 + "------------------------")
+
 
 def remove(index):
     filtered = []
@@ -52,7 +61,6 @@ def remove(index):
 #gets the values for a single readline
 def getWidth(width):
     index = width.find(" ")
-    print(index)
     return int(width[:index])
 
 def getLength(length):
@@ -77,8 +85,11 @@ while(True):
         confirm = input("confirm? y/n >>> ")
         if(confirm.lower() == "y" or confirm.lower() == "yes"):
             add(s1,s2,s3)
-            print("added\n\n")
+            os.system('cls')
+            print("------------------------ADDED------------------------")
+            
         else:
+            os.system('cls')
             continue
     elif(action == "find"):
         print("Item Dimensions:")
@@ -95,9 +106,11 @@ while(True):
                 s3 = temp[2]
                 find(int(s1),int(s2),int(s3))
         else:
+            os.system('cls')
             continue
     elif(action == "exit"):
         exit()
     else:
-        print("Invalid Command")
+        os.system('cls')
+        print("------------------------Invalid Command------------------------")
         continue
