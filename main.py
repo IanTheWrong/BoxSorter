@@ -3,10 +3,10 @@ best = ""
 bestDifference = 1000
 
 #TODO: Write alternate program for unit testing, random population of database + Self test results onto another txt file
-#TODO: Make Text UI 1,2,3 selection menus
+#TODO: Make Text UI 1,2,3 selection menus DONE
 #TODO: Allow find() to be able to find "Nearest" X amount of boxes
-#TODO: List all boxes function
-#TODO: List total boxes function
+#TODO: List all boxes function DONE
+#TODO: Make it so that a "removal" just marks it for deletion DONE
 
 def add(width, length, height):
     temp = [width, length, height]
@@ -19,15 +19,16 @@ def add(width, length, height):
         writeData = str(width) + " " + str(length) + " " + str(height) + "\n"
         data.write(writeData)
 
-def find(width, length, height):
+def find(width : float,length : float, height : float):
     global best
     global bestDifference
     iteration = 0
     index = 0
     with open("boxes.txt", "r") as data:
         for current in data:
-            if(getWidth(current) >= width and getLength(current) >= length and getHeight(current) >= height):
-                difference = (getWidth(current) - width) + (getLength(current)) + (getHeight(current))
+            #isAvailible must go first to make sure the current line isn't deleted
+            if(isAvailible(current) and getWidth(current) >= width and getLength(current) >= length and getHeight(current) >= height):
+                difference = float(getWidth(current) - width) + float(getLength(current)) + float(getHeight(current))
                 if(difference < bestDifference):
                     bestDifference = difference
                     best = str(getWidth(current)) + " " + str(getLength(current)) + " " + str(getHeight(current))
@@ -58,31 +59,50 @@ def remove(index):
         for line in data:
             if(increment != index):
                 filtered.append(line)
+            else:
+                filtered.append(line + " -")
             increment += 1
+
     with open("boxes.txt", "w") as data:
         data.writelines(filtered)
+
+def listBoxes():
+    with open("boxes.txt", "r") as data:
+        total = data.readlines()
+        for i in range(len(total)):
+            print(total[i], end="")
 
 
 
 #gets the values for a single readline
 def getWidth(width):
-    index = width.find(" ")
-    return int(width[:index])
+    if(isAvailible(width)):
+        index = width.find(" ")
+        print(index)
+        return float(width[:index])
 
 def getLength(length):
-    start = length.find(" ")
-    end = length.find(" ", start+1)
-    return int(length[start+1:end])
+    if(isAvailible(length)):
+        start = length.find(" ")
+        end = length.find(" ", start+1)
+        return float(length[start+1:end])
 
 def getHeight(height):
-    start = height.rfind(" ")
-    return int(height[start:])
+    if(isAvailible(height)):
+        start = height.rfind(" ")
+        return float(height[start:])
+
+def isAvailible(index):
+    if(index.find("-") == -1):
+        return True
+    else:
+        return False
 
 while(True):
     print("Box Find & Sort")
-    print("What would you like to do? (add, find, exit)")
+    print("What would you like to do? (add (1), find (2), exit (3))")
     action = input(">>> ")
-    if(action == "add"):
+    if(action == "1"):
         print("Adding New Box...")
         s1 = input("First Side: ")
         s2 = input("Second Side: ")
@@ -97,7 +117,7 @@ while(True):
         else:
             os.system('cls')
             continue
-    elif(action == "find"):
+    elif(action == "2"):
         print("Item Dimensions:")
         s1 = input("First Side: ")
         s2 = input("Second Side: ")
@@ -110,11 +130,11 @@ while(True):
                 s1 = temp[0]
                 s2 = temp[1]
                 s3 = temp[2]
-                find(int(s1),int(s2),int(s3))
+                find(float(s1),float(s2),float(s3))
         else:
             os.system('cls')
             continue
-    elif(action == "exit"):
+    elif(action == "3"):
         exit()
     else:
         os.system('cls')
