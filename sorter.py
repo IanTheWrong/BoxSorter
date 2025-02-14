@@ -53,7 +53,7 @@ def remove(index):
             if(increment != index):
                 filtered.append(line)
             else:
-                filtered.append("-" + line)
+                filtered.append(line + " -")
             increment += 1
 
     with open("boxes.txt", "w") as data:
