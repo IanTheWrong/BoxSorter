@@ -6,7 +6,8 @@ bestDifference = 1000
 #TODO: Make Text UI 1,2,3 selection menus DONE
 #TODO: Allow find() to be able to find "Nearest" X amount of boxes
 #TODO: List all boxes function DONE
-#TODO: Make it so that a "removal" just marks it for deletion DONE
+#TODO: Make it so that a "removal" just marks it for deletion DON
+#Something needs to be changed to merge
 
 def add(width, length, height):
     temp = [width, length, height]
