@@ -24,7 +24,8 @@ while(True):
         s1 = input("First Side: ")
         s2 = input("Second Side: ")
         s3 = input("Third Side: ")
-        print("finding box with sides: " + s1 + ", " + s2 + ", and " + s3)
+        iterations = input("Closest amount of Boxes: ")
+        print("finding " + iterations + " boxes with sides: " + s1 + ", " + s2 + ", and " + s3)
         confirm = input("confirm? y/n >>> ")
         if(confirm.lower() == "y" or confirm.lower() == "yes"):
                 temp = [s1, s2, s3]
@@ -32,7 +33,7 @@ while(True):
                 s1 = temp[0]
                 s2 = temp[1]
                 s3 = temp[2]
-                output = boxes.find(float(s1),float(s2),float(s3))
+                output = boxes.find(float(s1),float(s2),float(s3),int(iterations))
                 if(output[0] == -1):
                     print("No Boxes For Specifications")
                 else:
