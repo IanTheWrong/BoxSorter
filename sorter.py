@@ -24,13 +24,13 @@ def find(width : float,length : float, height : float, iterations : int):
     global best
     global bestDifference
     iteration = 0
-    index = 0
     usedIndex = []
+    result = [[0 for i in range(iterations)] for j in range(4)]
     with open("boxes.txt", "r") as data:
         for i in range(iterations):
             for current in data:
                 #isAvailible must go first to make sure the current line isn't deleted
-                if(iteration in usedIndex andisAvailible(current) and getWidth(current) >= width and getLength(current) >= length and getHeight(current) >= height):
+                if(iteration not in usedIndex and isAvailible(current) and getWidth(current) >= width and getLength(current) >= length and getHeight(current) >= height):
                     difference = float(getWidth(current) - width) + float(getLength(current)) + float(getHeight(current))
                     if(difference < bestDifference):
                         bestDifference = difference
@@ -40,11 +40,14 @@ def find(width : float,length : float, height : float, iterations : int):
                         s3 = str(getHeight(current))
                 iteration += 1
             if(bestDifference == 1000):
-                result = [-1]
+                failed = [-1]
                 iteration = 0
-                return result
+                return failed
             else:
-                result = [s1, s2, s3, iteration]
+                result[i][0] = s1
+                result[i][1] = s2
+                result[i][2] = s3
+                result[i][3] = iteration
                 usedIndex.append(iteration)
                 bestDifference = 1000
                 iteration = 0
@@ -90,7 +93,21 @@ def getHeight(height):
         return float(height[start:])
 
 def isAvailible(index):
-    if(index.find("-") == -1):
+    if(index.find("-") == -1 or index.find("*") == -1):
         return True
     else:
         return False
+
+def markUnavailible(index):
+    filtered = []
+    with open("boxes.txt", "r") as data:
+        increment = 0
+        for line in data:
+            if(increment != index):
+                filtered.append(line)
+            else:
+                filtered.append("*" + line)
+            increment += 1
+
+    with open("boxes.txt", "w") as data:
+        data.writelines(filtered)

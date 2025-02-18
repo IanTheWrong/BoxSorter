@@ -33,7 +33,7 @@ while(True):
                 s1 = temp[0]
                 s2 = temp[1]
                 s3 = temp[2]
-                output = boxes.find(float(s1),float(s2),float(s3),int(iterations))
+                output = boxes.find(float(s1),float(s2),float(s3))
                 if(output[0] == -1):
                     print("No Boxes For Specifications")
                 else:
