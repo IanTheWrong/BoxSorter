@@ -20,35 +20,33 @@ def add(width, length, height):
         writeData = str(width) + " " + str(length) + " " + str(height) + "\n"
         data.write(writeData)
 
-def find(width : float,length : float, height : float, iterations : int):
+def find(width : float,length : float, height : float):
     global best
     global bestDifference
     iteration = 0
-    index = 0
     usedIndex = []
     with open("boxes.txt", "r") as data:
-        for i in range(iterations):
-            for current in data:
-                #isAvailible must go first to make sure the current line isn't deleted
-                if(iteration in usedIndex andisAvailible(current) and getWidth(current) >= width and getLength(current) >= length and getHeight(current) >= height):
-                    difference = float(getWidth(current) - width) + float(getLength(current)) + float(getHeight(current))
-                    if(difference < bestDifference):
-                        bestDifference = difference
-                        best = str(getWidth(current)) + " " + str(getLength(current)) + " " + str(getHeight(current))
-                        s1 = str(getWidth(current))
-                        s2 = str(getLength(current))
-                        s3 = str(getHeight(current))
-                iteration += 1
-            if(bestDifference == 1000):
-                result = [-1]
-                iteration = 0
-                return result
-            else:
-                result = [s1, s2, s3, iteration]
-                usedIndex.append(iteration)
-                bestDifference = 1000
-                iteration = 0
-                return result
+        for current in data:
+            #isAvailible must go first to make sure the current line isn't deleted
+            if(isAvailible(current) and getWidth(current) >= width and getLength(current) >= length and getHeight(current) >= height):
+                difference = float(getWidth(current) - width) + float(getLength(current)) + float(getHeight(current))
+                if(difference < bestDifference):
+                    bestDifference = difference
+                    best = str(getWidth(current)) + " " + str(getLength(current)) + " " + str(getHeight(current))
+                    s1 = str(getWidth(current))
+                    s2 = str(getLength(current))
+                    s3 = str(getHeight(current))
+            iteration += 1
+        if(bestDifference == 1000):
+            result = [-1]
+            iteration = 0
+            return result
+        else:
+            result = [s1, s2, s3, iteration]
+            usedIndex.append(iteration)
+            bestDifference = 1000
+            iteration = 0
+            return result
 
 def remove(index):
     filtered = []
